@@ -2,14 +2,19 @@
 #include <string>
 #include <ctype.h>
 
+// constant values
+const int BUFFER_SIZE = 1024;
+const float SHORT_FLASH_DUR = 0.5;
+const float LONG_FLASH_DUR = 1.5;
+
 Serial pc(USBTX, USBRX); // tx, rx
 DigitalOut myled(LED1);
 
-char buffer[1024];
-char buffer2[1024];
-int charIdx = 0;
+char buffer[BUFFER_SIZE];
+char buffer2[BUFFER_SIZE];
+int bufferIdx = -1;
 int bufferSize = 0;
-int flashIndex = 0;
+int flashIdx = 0;
 bool isInterrupted = false;
 string alphabet = "abcdefghijklmnopqrstuvwqyz1234567890";
 string morseAlphabet[] = {".-","-...","-.-.","-..", ".", "..-.", "--.",
@@ -30,24 +35,21 @@ void flashLed(float time)
         char c = pc.getc();
 
         if (c == '\n' || c == '\r') {
-            pc.printf(buffer);
-            pc.printf("\n");
-            bufferSize = charIdx + 1;
-            strcpy(buffer,buffer2);
-            pc.printf("\nbuffer: %s",buffer);
-            pc.printf("\nbuffer2: %s",buffer2);
-            flashIndex = 0;
+            bufferSize = bufferIdx + 1;
+            // we are done with buffering set bufferIdx to -1
+            bufferIdx = -1;
+            strcpy(buffer, buffer2);
+            // we are done with buffer2, make it ready to use
+            memset(buffer2, 0, sizeof buffer2);
+            // flashIdx will be incremented in the loop of flashCharBuffer
+            flashIdx = -1;
             isInterrupted = true;
-            pc.printf("interrupt occured.");
+            pc.printf("\ninterrupt occured with %s", buffer);
             return;
-            //flashCharBuffer();
-            //charIdx = 0;
-            //memset(buffer2, 0, sizeof buffer2);
-            //memset(buffer, 0, sizeof buffer);
         } else {
-            //isInterrupted = false;
-            buffer2[charIdx] = c;
-            charIdx++;
+            // since it was pressed enter, bufferIdx = 0
+            bufferIdx++;
+            buffer2[bufferIdx] = c;
         }
     }
     myled = 1;
@@ -76,15 +78,16 @@ void flashMorse(string morseChar)
     isInterrupted = false;
     int len = morseChar.size();
     for (int i = 0; i < len; i++) {
-        if(isInterrupted)
+        if(isInterrupted) {
             return;
+        }
         char ch = morseChar[i];
         if (ch == '-') {
-            flashLed(1.5);
+            flashLed(LONG_FLASH_DUR);
         } else if (ch == '.') {
-            flashLed(0.5);
+            flashLed(SHORT_FLASH_DUR);
         } else {
-            pc.printf("line 46 not dot or dash in morse string");
+            pc.printf("line 86 not 'dot' or 'dash' in morse string");
         }
     }
 }
@@ -97,11 +100,12 @@ void flashCharInMorse(char c)
 
 void flashCharBuffer()
 {
-    for (flashIndex = 0; flashIndex < bufferSize; flashIndex++) {
-        flashCharInMorse(buffer[flashIndex]);
+    for (flashIdx = 0; flashIdx < bufferSize; flashIdx++) {
+        pc.printf(" flashIdx: %d", flashIdx);
+        flashCharInMorse(buffer[flashIdx]);
     }
-    if (bufferSize > 1) {
-        pc.printf("end of flashCharBuffer with size %d", bufferSize - 1);
+    if (bufferSize > 0) {
+        pc.printf("\nend of flashCharBuffer with size %d", bufferSize);
     }
 }
 
@@ -114,14 +118,13 @@ int main()
         if (c == '\n' || c == '\r') {
             pc.printf(buffer);
             pc.printf("\n");
-            bufferSize = charIdx + 1;
-            charIdx = 0;
+            bufferSize = bufferIdx + 1;
+            bufferIdx = -1;
             flashCharBuffer();
-            
             memset(buffer, 0, sizeof buffer);
         } else {
-            buffer[charIdx] = c;
-            charIdx++;
+            bufferIdx++;
+            buffer[bufferIdx] = c;
         }
     }
 }
