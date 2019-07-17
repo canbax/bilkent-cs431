@@ -8,7 +8,7 @@ DigitalOut myled(LED1);
 bool hasInp = false;
 char currChar;
 char buffer[1024];
-int charIdx = 0;
+int charIdx = -1;
 int bufferSize = 0;
 
 string alphabet = "abcdefghijklmnopqrstuvwqyz1234567890";
