@@ -5,15 +5,16 @@ using namespace std;
 
 Serial pc(USBTX, USBRX); // tx, rx
 Ticker ticker;
-AnalogIn analogInp(A0); // p15
+AnalogIn analogInp(p20); // p15
 
-const float NOISE_SAMPLING_PERIOD = 1.0;
+const int BAUD_RATE = 921600;
+const float NOISE_SAMPLING_PERIOD = 0.00025; // 4kHz
 bool isTicked = false;
 
 void tickTock() { isTicked = true; }
 
 int main() {
-  pc.baud(115200);
+  pc.baud(BAUD_RATE);
   pc.printf("Hello World!\n\r");
   ticker.attach(&tickTock, NOISE_SAMPLING_PERIOD);
 
@@ -21,7 +22,12 @@ int main() {
   while (1) {
     if (isTicked) {
       float f = analogInp.read();
-      pc.printf(" %.2f ", f);
+      if (f > 0.5) {
+        pc.printf("1");
+      } else {
+        // if there is a clap it will print here
+        pc.printf("0");
+      }
       isTicked = false;
     }
   }
