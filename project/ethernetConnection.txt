@@ -1,0 +1,31 @@
+here you can find various configurations for RJ45 ethernet jack
+https://os.mbed.com/cookbook/Ethernet-RJ45
+
+for our equipment  below configuration
+            |   |   |   |         
+          --||--||--||--||-----   Socket mbed
+        /  8 | 6 | 4 | 2 |    /|       1 TD+
+       /    7   5   3   1    / |       2 TD-
+      /                     /  |       3 RD+
+     /     Han Run         /   |       4 3.3V
+    /      MagJack        /    |       5 3.3V
+   /      HR911105A      /     |       6 RD-
+  /____________________ /      |       7 N.C.                                
+ |      --------       |       |       8 GND
+ |    --        --     |       |
+ | --- |          ---- |      / 
+ ||    /--/-/-/-/-/-/-||     /                                 ___                   ________   
+ ||   /  8 7 6 5 4 3 2||    /              ________________  -/   \-        ____    |   ____ |  
+ ||  /  / / / / / / / ||   /      ,= ,++, /,  ,  ,  ,  ,  ,\|,  ,  ,| ,  , /,  ,| , |,  ,  ,_|  
+ || /  / / / / / / / /||  /      ============================================================  
+ ||/  ' ' ' ' ' ' ' ' || /        |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |    
+ | ------------------- |/         |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |    
+  ---------------------                                               ^  ^  ^  ^                
+  Ethernet Socket Front           mbed Board                         TD+TD-RD+RD-               
+
+  works !
+
+  4th one in row.
+
+  You can use HttpServerHelloWorld example from 
+  https://os.mbed.com/cookbook/HTTP-Server
