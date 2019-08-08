@@ -1,0 +1,30 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    mbed client 
+  </h1>
+</div>
+
+<ul>
+  <li>
+    <button (click)="getFan()">get fan info</button>
+  </li>
+  <li>
+    <button (click)="getDht()">get temperature & humidity info</button>
+  </li>
+  <li>
+    <button (click)="getRoof()">get roof info</button>
+  </li>
+</ul>
+
+<input type="number" placeholder="temperature" [(ngModel)]="temperature"> 
+<button (click)="setTemperature(temperature)">set temperature</button>
+
+<input type="number" placeholder="humidity" [(ngModel)]="humidity"> 
+<button (click)="setHumidity(humidity)">set humidity</button>
+
+<input type="text" placeholder="url" [(ngModel)]="url"> 
+<button (click)="setUrl(url)">set url</button>
+
+<div>{{serverResponse}}</div>
+
