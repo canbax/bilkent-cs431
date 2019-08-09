@@ -8,55 +8,63 @@ import { MbedClientService } from './mbed-client.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  serverResponse = '...';
+  serverResponse = '';
   temperature = 25;
   humidity = 60;
+  url = '';
 
-  constructor(private _srv: MbedClientService) {
+  constructor(public srv: MbedClientService) {
+    this.url = this.srv.url;
   }
 
   // read sensors
   getDht() {
     this.serverResponse = '...';
-    this._srv.getDht().subscribe(x => {
+    this.srv.getDht().subscribe(x => {
       this.serverResponse = JSON.stringify(x);
     });
   }
 
   getFan() {
     this.serverResponse = '...';
-    this._srv.getFan().subscribe(x => {
+    this.srv.getFan().subscribe(x => {
       this.serverResponse = x.toString();
     });
   }
 
   getRoof() {
     this.serverResponse = '...';
-    this._srv.getRoof().subscribe(x => {
+    this.srv.getRoof().subscribe(x => {
       this.serverResponse = x.toString();
     });
   }
 
   getRequiredTemp() {
     this.serverResponse = '...';
-    this._srv.getRequiredTemperature().subscribe(x => {
+    this.srv.getRequiredTemperature().subscribe(x => {
       this.serverResponse = x.toString();
     });
   }
 
   // set ideal temperature
   setTemperature(t: number) {
-    console.log('setTemperature: ');
-    this._srv.setTemperature(t);
+    this.serverResponse = '...';
+    this.srv.setTemperature(t).subscribe(x => {
+      this.serverResponse = x.toString();
+    });
   }
 
   // set ideal humidity
   setHumidity(h: number) {
-    this._srv.setHumidity(h);
+    this.serverResponse = '...';
+    this.srv.setHumidity(h).subscribe(x => {
+      this.serverResponse = x.toString();
+    });
   }
 
   setUrl(url: string){
-    this._srv._url = url;
+    this.srv.url = url;
+    this.url = url;
   }
 
 }

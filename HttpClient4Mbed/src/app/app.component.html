@@ -1,30 +1,38 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    mbed client 
+    mbed client
   </h1>
 </div>
 
-<ul>
-  <li>
-    <button (click)="getFan()">get fan info</button>
-  </li>
-  <li>
-    <button (click)="getDht()">get temperature & humidity info</button>
-  </li>
-  <li>
-    <button (click)="getRoof()">get roof info</button>
-  </li>
-</ul>
+<div class="row m-2">
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" [(ngModel)]="url">
+    <button (click)="setUrl(url)" type="button" class="btn btn-primary mx-1">set url</button>
+  </div>
+</div>
 
-<input type="number" placeholder="temperature" [(ngModel)]="temperature"> 
-<button (click)="setTemperature(temperature)">set temperature</button>
+<h2>Get System Info</h2>
+<div class="row m-2">
+  <button (click)="getFan()" type="button" class="btn btn-secondary m-1">get fan info</button>
+  <button (click)="getDht()" type="button" class="btn btn-secondary m-1">get temperature & humidity info</button>
+  <button (click)="getRoof()" type="button" class="btn btn-secondary m-1">get roof info</button>
+</div>
 
-<input type="number" placeholder="humidity" [(ngModel)]="humidity"> 
-<button (click)="setHumidity(humidity)">set humidity</button>
+<h2>Set ideal temperature & humidity</h2>
+<div class="row m-2">
+  <div class="input-group mb-3">
+    <input type="number" class="form-control" [(ngModel)]="temperature">
+    <button (click)="setTemperature(temperature)" type="button" class="btn btn-secondary mx-1">set temperature</button>
+  </div>
 
-<input type="text" placeholder="url" [(ngModel)]="url"> 
-<button (click)="setUrl(url)">set url</button>
+  <div class="input-group mb-3">
+    <input type="number" class="form-control" [(ngModel)]="humidity">
+    <button (click)="setHumidity(humidity)" type="button" class="btn btn-secondary mx-1">set humidity</button>
+  </div>
+</div>
 
-<div>{{serverResponse}}</div>
-
+<div class="row justify-content-center align-items-center">
+  <div class="loader" *ngIf="serverResponse == '...'">
+  </div>
+  <h2 *ngIf="serverResponse != '...'"> {{serverResponse}} </h2>
+</div>
