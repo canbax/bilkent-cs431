@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build",
+    "prod": "ng build --prod && node server.js"
   },
   "private": true,
   "dependencies": {
