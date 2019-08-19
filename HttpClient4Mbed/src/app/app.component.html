@@ -16,9 +16,12 @@
   <button (click)="getFan()" type="button" class="btn btn-secondary m-1">get fan info</button>
   <button (click)="getDht()" type="button" class="btn btn-secondary m-1">get temperature & humidity info</button>
   <button (click)="getRoof()" type="button" class="btn btn-secondary m-1">get roof info</button>
+  <button (click)="getRequiredTemp()" type="button" class="btn btn-secondary m-1">get required temperature</button>
+  <button (click)="getRequiredHum()" type="button" class="btn btn-secondary m-1">get required humidity</button>
 </div>
 
-<h2>Set ideal temperature & humidity</h2>
+<!-- could not find a way to not send http request headers -->
+<!-- <h2>Set ideal temperature & humidity</h2>
 <div class="row m-2">
   <div class="input-group mb-3">
     <input type="number" class="form-control" [(ngModel)]="temperature">
@@ -29,7 +32,7 @@
     <input type="number" class="form-control" [(ngModel)]="humidity">
     <button (click)="setHumidity(humidity)" type="button" class="btn btn-secondary mx-1">set humidity</button>
   </div>
-</div>
+</div> -->
 
 <div class="row justify-content-center align-items-center">
   <div class="loader" *ngIf="serverResponse == '...'">

@@ -46,6 +46,13 @@ export class AppComponent {
     });
   }
 
+  getRequiredHum() {
+    this.serverResponse = '...';
+    this.srv.getRequiredHumidity().subscribe(x => {
+      this.serverResponse = x.toString();
+    });
+  }
+
   // set ideal temperature
   setTemperature(t: number) {
     this.serverResponse = '...';
